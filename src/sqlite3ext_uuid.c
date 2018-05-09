@@ -38,6 +38,7 @@
 #define USE_UTIL_LINUX 1
 #else /* not __linux__ */
 #ifdef _WIN32
+#define DLLEXPORT __declspec(dllexport)
 #define USE_COCREATEGUID 0
 #else /* not _WIN32 */
 #endif /* not _WIN32 */
@@ -363,7 +364,7 @@ sql_xuuid (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
 }
 
 /* Entry point.  */
-int
+DLLEXPORT int
 sqlite3_extension_init (sqlite3 *database, char **error, sqlite3_api_routines const *api)
 {
   SQLITE_EXTENSION_INIT2 (api);

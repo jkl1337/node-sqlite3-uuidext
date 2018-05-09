@@ -7,7 +7,7 @@
     "url": "git://github.com/jkl1337/node-sqlite3-uuidext.git"
   },
   "binary": {
-    "module_name": "node_sqlite3_uuidext",
+    "module_name": "sqlite3_uuidext",
     "module_path": "./lib/{node_abi}-{platform}-{arch}",
     "host": "https://node-sqlite3-uuidext.s3-us-west-1.amazonaws.com"
   },
