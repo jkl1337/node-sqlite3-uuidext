@@ -328,6 +328,14 @@ sql_uuid (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
   sqlite3_result_text (context, text, 36, sqlite3_free);
 }
 
+static void
+sql_uuidnil (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
+{
+  unsigned char octets[16];
+  memset(octets, 0, sizeof octets);
+  sqlite3_result_blob (context, octets, sizeof octets, SQLITE_TRANSIENT);
+}
+
 /* Convert an UUID from a string into a BLOB.  */
 static void
 sql_xuuid (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
@@ -336,10 +344,6 @@ sql_xuuid (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
   unsigned char octets[16];
   void const *text;
 
-  if (val_count == 0) {
-      memset(octets, 0, sizeof octets);
-      sqlite3_result_blob (context, octets, sizeof octets, SQLITE_TRANSIENT);
-  }
   /* Check argument.  */
   arg = val_vec[0];
 
@@ -370,6 +374,9 @@ sqlite3_extension_init (sqlite3 *database, char **error, sqlite3_api_routines co
   sqlite3_create_function (database, "uuid", 1,
 			   SQLITE_UTF8, NULL,
 			   sql_uuid, NULL, NULL);
+  sqlite3_create_function (database, "uuidnil", 0,
+			   SQLITE_UTF8, NULL,
+			   sql_uuidnil, NULL, NULL);
   sqlite3_create_function (database, "xuuid", 1,
 			   SQLITE_UTF8, NULL,
 			   sql_xuuid, NULL, NULL);
