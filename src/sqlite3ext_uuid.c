@@ -363,6 +363,17 @@ sql_xuuid (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
   sqlite3_result_blob (context, octets, sizeof octets, SQLITE_TRANSIENT);
 }
 
+/* Convert an UUID from a string into a BLOB or generate one if NULL.  */
+static void
+sql_uuidauto (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
+{
+  if (sqlite3_value_type(val_vec[0]) == SQLITE_NULL) {
+      sql_uuidgen(context, val_count, val_vec);
+  } else {
+      sql_xuuid(context, val_count, val_vec);
+  }
+}
+
 /* Entry point.  */
 DLLEXPORT int
 sqlite3_extension_init (sqlite3 *database, char **error, sqlite3_api_routines const *api)
@@ -381,6 +392,9 @@ sqlite3_extension_init (sqlite3 *database, char **error, sqlite3_api_routines co
   sqlite3_create_function (database, "xuuid", 1,
 			   SQLITE_UTF8, NULL,
 			   sql_xuuid, NULL, NULL);
+  sqlite3_create_function (database, "uuidauto", 1,
+			   SQLITE_UTF8, NULL,
+			   sql_uuidauto, NULL, NULL);
 
   return SQLITE_OK;
 }
