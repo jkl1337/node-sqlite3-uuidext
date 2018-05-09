@@ -360,7 +360,7 @@ sql_xuuid (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
 
 /* Entry point.  */
 int
-sqlite3ext_uuid (sqlite3 *database, char **error, sqlite3_api_routines const *api)
+sqlite3_extension_init (sqlite3 *database, char **error, sqlite3_api_routines const *api)
 {
   SQLITE_EXTENSION_INIT2 (api);
 
