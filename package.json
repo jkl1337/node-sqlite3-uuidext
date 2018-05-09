@@ -1,0 +1,37 @@
+{
+  "name": "sqlite3-uuidext",
+  "version": "0.1.0",
+  "homepage": "http://github.com/jkl1337/node-sqlite3-uuidext",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jkl1337/node-sqlite3-uuidext.git"
+  },
+  "binary": {
+    "module_name": "node_sqlite3_uuidext",
+    "module_path": "./lib/{node_abi}-{platform}-{arch}",
+    "host": "https://node-sqlite3-uuidext.s3-us-west-1.amazonaws.com"
+  },
+  "dependencies": {
+    "nan": "2.x",
+    "node-pre-gyp": "~0.9.0"
+  },
+  "bundledDependencies": [
+    "node-pre-gyp"
+  ],
+  "devDependencies": {
+    "eslint": "3.5.0",
+    "mocha": "^5.1.1"
+  },
+  "scripts": {
+    "install": "node-pre-gyp install --fallback-to-build"
+  },
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "sql",
+    "sqlite",
+    "sqlite3",
+    "database",
+    "uuid"
+  ],
+  "main": "./index.js"
+}
