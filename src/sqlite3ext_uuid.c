@@ -61,6 +61,10 @@ SQLITE_EXTENSION_INIT1;
 #endif /* not USE_COCREATEGUID */
 #endif /* not USE_UTIL_LINUX */
 
+#ifndef DLLEXPORT
+#define DLLEXPORT
+#endif
+
 /* Utility function to convert a sequence of 16 octets
    into an UUID with 36 characters.  */
 #define hi(octet) (((octet) & 0xF0U) >> 4)
