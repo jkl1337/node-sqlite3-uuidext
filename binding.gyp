@@ -12,6 +12,14 @@
         "MACOSX_DEPLOYMENT_TARGET":"10.9"
       },
       "win_delay_load_hook": 'false',
+      'conditions': [
+        ['OS=="linux"', {
+          'libraries': [
+            '-luuid'
+          ]
+        }
+        ]
+      ]
     }
   ]
 }

@@ -220,11 +220,7 @@ static void *
 make_random_uuid (void *buffer)
 {
 #if USE_UTIL_LINUX
-
-  uuid_t uuid;
-
   uuid_generate_random (buffer);
-
 #else /* not USE_UTIL_LINUX */
 #if USE_COCREATEGUID
 
