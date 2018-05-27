@@ -289,7 +289,7 @@ while (0)
 
    Return value is a BLOB with 16 bytes.  */
 static void
-sql_uuidgen (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
+sql_uuid_generate_v4 (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
 {
   unsigned char octets[16];
 
@@ -302,7 +302,7 @@ sql_uuidgen (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
 
 /* Convert an UUID from a BLOB into a string.  */
 static void
-sql_uuid (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
+sql_uuid_str (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
 {
   sqlite3_value *arg;
   void const *octets;
@@ -330,7 +330,7 @@ sql_uuid (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
 }
 
 static void
-sql_uuidnil (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
+sql_uuid_nil (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
 {
   unsigned char octets[16];
   memset(octets, 0, sizeof octets);
@@ -339,7 +339,7 @@ sql_uuidnil (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
 
 /* Convert an UUID from a string into a BLOB.  */
 static void
-sql_xuuid (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
+sql_uuid (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
 {
   sqlite3_value *arg;
   unsigned char octets[16];
@@ -365,12 +365,12 @@ sql_xuuid (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
 
 /* Convert an UUID from a string into a BLOB or generate one if NULL.  */
 static void
-sql_uuidauto (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
+sql_uuid_auto (sqlite3_context *context, int val_count, sqlite3_value **val_vec)
 {
   if (sqlite3_value_type(val_vec[0]) == SQLITE_NULL) {
-      sql_uuidgen(context, val_count, val_vec);
+      sql_uuid_generate_v4(context, val_count, val_vec);
   } else {
-      sql_xuuid(context, val_count, val_vec);
+      sql_uuid(context, val_count, val_vec);
   }
 }
 
@@ -380,21 +380,21 @@ sqlite3_extension_init (sqlite3 *database, char **error, sqlite3_api_routines co
 {
   SQLITE_EXTENSION_INIT2 (api);
 
-  sqlite3_create_function (database, "uuidgen", 0,
+  sqlite3_create_function (database, "uuid_generate_v4", 0,
 			   SQLITE_UTF8, NULL,
-			   sql_uuidgen, NULL, NULL);
+			   sql_uuid_generate_v4, NULL, NULL);
   sqlite3_create_function (database, "uuid", 1,
 			   SQLITE_UTF8, NULL,
 			   sql_uuid, NULL, NULL);
-  sqlite3_create_function (database, "uuidnil", 0,
+  sqlite3_create_function (database, "uuid_nil", 0,
 			   SQLITE_UTF8, NULL,
-			   sql_uuidnil, NULL, NULL);
-  sqlite3_create_function (database, "xuuid", 1,
+			   sql_uuid_nil, NULL, NULL);
+  sqlite3_create_function (database, "uuid_str", 1,
 			   SQLITE_UTF8, NULL,
-			   sql_xuuid, NULL, NULL);
-  sqlite3_create_function (database, "uuidauto", 1,
+			   sql_uuid_str, NULL, NULL);
+  sqlite3_create_function (database, "uuid_auto", 1,
 			   SQLITE_UTF8, NULL,
-			   sql_uuidauto, NULL, NULL);
+			   sql_uuid_auto, NULL, NULL);
 
   return SQLITE_OK;
 }
